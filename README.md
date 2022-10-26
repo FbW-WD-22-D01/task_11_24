@@ -1,0 +1,56 @@
+# Übung zu Mongoose und Search Queries
+
+## Idee
+Baut ein Backend mit Datenbank, welches verschiedene Routen zur Verfügung stellt um 
+a) Daten aus der Datenbank zu erhalten
+b) Daten in der Datenbank aktualisiert
+
+## Aufgaben
+### Server Setup
+- Erstellt ein Backend Template mit der üblichen Ordnerstruktur
+- erstellt eine server.js und bindet den PORT über die .env Datei ein und ermöglicht das Lesen von JSON Daten mittels express.json() 
+- erstellt ein GET ROUTE die mit dem Controller verbunden ist und nur einen String 'Hallo Welt' ausgibt
+
+### Datenbank Setup
+- Erstellt ein Schema und  Model für Produkte (`Products`)
+- das Schema sollte sich an diesem Beispiel orientieren:
+```
+const myProduct = {
+    productName: 'Waschmaschine',
+    price: 390,
+    inStock: 30,
+    available: true,
+    categories: ['Haushalt', 'Elektro', 'Reinigung']
+    details: {
+        description: 'blablabla',
+        payment: ['Mastercard', 'Visa']
+    }
+}
+```
+- Tipps für das Schema:
+    - price & inStock sollten Zahlen sein
+    - price, inStock und productName sollten Pflichtangaben sein
+    - available sollte einen default Wert true haben, da wir davon ausgehen, dass neue Produkte erstmal vorhanden sind.  
+    - im Categories Array befinden sich Strings
+- erstellt euch ein Seed Skript was euch 100 Musterprodukte erstellt. Tipps:
+    - In der Kategorie Commerce, gibt es productName(), was euch genügend Produktnamen auswirft und andere hilfreiche Funktionen
+    - was ihr in den Category Array reinschreibt ist egel, das könnt ihr auch ohne faker machen
+    - sowieso immer, wenn ihr euch nciht sicher seid, wie ihr das mit Faker machen könnt, schreibt es einfach fest hin, dann ist es zwar überall gleich, aber für das Projekt ist es egal. Bennutzt hier einfach kein unique.
+
+### DB und Backend zusammen
+- erstellt euch folgende GET Routen:
+    - Ausgabe aller Produkte 
+    - Ausgabe eines Produkts durch die id (/:id)
+    - Ausgabe alle Produkte zu einer bestimmten Kategorie (:/category)
+    - Ausgabe aller Produkete teurer/billiger als xx € (/:min) oder (/:max)
+    - Ausgabe aller Produkte zwischen xx€ und xx€ (schwer!), versucht einen query String (z.B. /range?min=5&max=10) zu benutzen
+
+**Bonus**
+- erstellt eine POST Route mit der ihr ein neues Produkt hinzufügen könnt
+- erstellt euch eine DELETE ROute bei der ihr ein Produkt löschen könnt (mittels der id) 
+- erstellt euch PUT Routen für updates (werden wir ncoh behandeln, hattet ihr aber shon bei mongodb):
+    - Route, bei der ihr den Preis verändern könnt
+    - eine neue Category hinzufügen könnt
+    - eine Category löschen könnt
+    - eine Route die den amount reduziert
+
