@@ -32,7 +32,7 @@ const myProduct = {
     - price, inStock und productName sollten Pflichtangaben sein
     - available sollte einen default Wert true haben, da wir davon ausgehen, dass neue Produkte erstmal vorhanden sind.  
     - im Categories Array befinden sich Strings
-- erstellt euch ein Seed Skript was euch 100 Musterprodukte erstellt. Tipps:
+- erstellt euch ein Seed Skript mit faker was euch 100 Musterprodukte erstellt. Tipps:
     - In der Kategorie Commerce, gibt es productName(), was euch genügend Produktnamen auswirft und andere hilfreiche Funktionen
     - was ihr in den Category Array reinschreibt ist egel, das könnt ihr auch ohne faker machen
     - sowieso immer, wenn ihr euch nciht sicher seid, wie ihr das mit Faker machen könnt, schreibt es einfach fest hin, dann ist es zwar überall gleich, aber für das Projekt ist es egal. Bennutzt hier einfach kein unique.
