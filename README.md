@@ -28,27 +28,27 @@ const myProduct = {
 }
 ```
 - Tipps für das Schema:
-    - price & inStock sollten Zahlen sein
-    - price, inStock und productName sollten Pflichtangaben sein
-    - available sollte einen default Wert true haben, da wir davon ausgehen, dass neue Produkte erstmal vorhanden sind.  
+    - `price` & `inStock` sollten Zahlen sein
+    - `price`, `inStock` und `productName` sollten Pflichtangaben sein
+    - `available` sollte einen default Wert true haben, da wir davon ausgehen, dass neue Produkte erstmal vorhanden sind.  
     - im Categories Array befinden sich Strings
 - erstellt euch ein Seed Skript mit faker was euch 100 Musterprodukte erstellt. Tipps:
-    - In der Kategorie Commerce, gibt es productName(), was euch genügend Produktnamen auswirft und andere hilfreiche Funktionen
-    - was ihr in den Category Array reinschreibt ist egel, das könnt ihr auch ohne faker machen
-    - sowieso immer, wenn ihr euch nciht sicher seid, wie ihr das mit Faker machen könnt, schreibt es einfach fest hin, dann ist es zwar überall gleich, aber für das Projekt ist es egal. Bennutzt hier einfach kein unique.
+    - In der faker Kategorie `commerce`, gibt es `productName()`, was euch genügend Produktnamen auswirft und andere hilfreiche Funktionen
+    - was ihr in den Category Array reinschreibt ist egel, das kann sich bei den Produken auch wiederholen, so könnt ihr das auch ohne faker machen
+    - sowieso immer, wenn ihr euch nicht sicher seid, wie ihr das mit Faker machen könnt: schreibt es fest hin, dann ist es zwar überall gleich Nur benutzt kein `unique`...
 
 ### DB und Backend zusammen
-- erstellt euch folgende GET Routen:
+- erstellt euch folgende `GET` Routen:
     - Ausgabe aller Produkte 
-    - Ausgabe eines Produkts durch die id (/:id)
-    - Ausgabe alle Produkte zu einer bestimmten Kategorie (:/category)
-    - Ausgabe aller Produkete teurer/billiger als xx € (/:min) oder (/:max)
-    - Ausgabe aller Produkte zwischen xx€ und xx€ (schwer!), versucht einen query String (z.B. /range?min=5&max=10) zu benutzen
+    - Ausgabe eines Produkts durch die id (`/:id`)
+    - Ausgabe alle Produkte zu einer bestimmten Kategorie (`/:category`)
+    - Ausgabe aller Produkete teurer/billiger als xx € (`/:min`) oder (`/:max`)
+    - Ausgabe aller Produkte zwischen xx€ und xx€ (etwas schwerer!), versucht einen query String (z.B. `/range?min=5&max=10`) zu benutzen
 
 **Bonus**
-- erstellt eine POST Route mit der ihr ein neues Produkt hinzufügen könnt
-- erstellt euch eine DELETE ROute bei der ihr ein Produkt löschen könnt (mittels der id) 
-- erstellt euch PUT Routen für updates (werden wir ncoh behandeln, hattet ihr aber shon bei mongodb):
+- erstellt eine `POST` Route mit der ihr ein neues Produkt hinzufügen könnt
+- erstellt euch eine `DELETE` Route bei der ihr ein Produkt löschen könnt (mittels der id) 
+- erstellt euch `PUT` Routen für updates (werden wir noch behandeln, funktioniert aber wie in der mongodb shell):
     - Route, bei der ihr den Preis verändern könnt
     - eine neue Category hinzufügen könnt
     - eine Category löschen könnt
