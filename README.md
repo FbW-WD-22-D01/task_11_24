@@ -1,56 +1,19 @@
-# Übung zu Mongoose und Search Queries
+# Übung zu Filter & Query-Params
 
-## Idee
-Baut ein Backend mit Datenbank, welches verschiedene Routen zur Verfügung stellt um 
-a) Daten aus der Datenbank zu erhalten
-b) Daten in der Datenbank aktualisiert
+## Setup
+
+installiere alles mit `npm install`
+befülle die datenbank mit `node seed.js`
+
+
 
 ## Aufgaben
-### Server Setup
-- Erstellt ein Backend Template mit der üblichen Ordnerstruktur
-- erstellt eine server.js und bindet den PORT über die .env Datei ein und ermöglicht das Lesen von JSON Daten mittels express.json() 
-- erstellt ein GET ROUTE die mit dem Controller verbunden ist und nur einen String 'Hallo Welt' ausgibt
 
-### Datenbank Setup
-- Erstellt ein Schema und  Model für Produkte (`Products`)
-- das Schema sollte sich an diesem Beispiel orientieren:
-```
-const myProduct = {
-    productName: 'Waschmaschine',
-    price: 390,
-    inStock: 30,
-    available: true,
-    categories: ['Haushalt', 'Elektro', 'Reinigung']
-    details: {
-        description: 'blablabla',
-        payment: ['Mastercard', 'Visa']
-    }
-}
-```
-- Tipps für das Schema:
-    - `price` & `inStock` sollten Zahlen sein
-    - `price`, `inStock` und `productName` sollten Pflichtangaben sein
-    - `available` sollte einen default Wert true haben, da wir davon ausgehen, dass neue Produkte erstmal vorhanden sind.  
-    - im Categories Array befinden sich Strings
-- erstellt euch ein Seed Skript mit faker was euch 100 Musterprodukte erstellt. Tipps:
-    - In der faker Kategorie `commerce`, gibt es `productName()`, was euch genügend Produktnamen auswirft und andere hilfreiche Funktionen
-    - was ihr in den Category Array reinschreibt ist egel, das kann sich bei den Produken auch wiederholen, so könnt ihr das auch ohne faker machen
-    - sowieso immer, wenn ihr euch nicht sicher seid, wie ihr das mit Faker machen könnt: schreibt es fest hin, dann ist es zwar überall gleich Nur benutzt kein `unique`...
+- implementiere alle controller-middlewares in `/controllers/recordsController`
+- der endpunkt `GET /records` soll die möglichkeit haben dass wir paginieren können. Durch die Query-Params `start` und `end` soll nur ein Teil der Gesamt-Liste ausgegeben werden. z.b `GET /records?start=5&end=10` soll die ersten 5 Records überspringen und nur 5 Records ausgeben
+- der endpunkt `GET /records` soll die möglichkeit haben nach genre zu filtern. so soll der Request `GET /records?genre=Rock` nur Records ausgeben welche Rock als Genre haben
+- wir wollen nack Preis filtern können. so soll `GET /records?maxPrice=10` nur Records ausgeben, welche maximal 10€ kosten. der Request `GET /records?minPrice=10` soll nur records ausgeben welche mindestens 10€ kosten
 
-### DB und Backend zusammen
-- erstellt euch folgende `GET` Routen:
-    - Ausgabe aller Produkte 
-    - Ausgabe eines Produkts durch die id (`/:id`)
-    - Ausgabe alle Produkte zu einer bestimmten Kategorie (`/:category`)
-    - Ausgabe aller Produkete teurer/billiger als xx € (`/:min`) oder (`/:max`)
-    - Ausgabe aller Produkte zwischen xx€ und xx€ (etwas schwerer!), versucht einen query String (z.B. `/range?min=5&max=10`) zu benutzen
+## Bonus
 
-**Bonus**
-- erstellt eine `POST` Route mit der ihr ein neues Produkt hinzufügen könnt
-- erstellt euch eine `DELETE` Route bei der ihr ein Produkt löschen könnt (mittels der id) 
-- erstellt euch `PUT` Routen für updates (werden wir noch behandeln, funktioniert aber wie in der mongodb shell):
-    - Route, bei der ihr den Preis verändern könnt
-    - eine neue Category hinzufügen könnt
-    - eine Category löschen könnt
-    - eine Route die den amount reduziert
-
+- Überlege dir wie man eine Paginierung verwirklichen könnte. Jede Page soll 5 Records beinhalten. wenn ich also `GET /records?page=2` aufrufe, dann sollen nur die Produkte 5-9 ausgegeben werden. wenn ich `GET /records` aufrufe, dann nur Records 0-4
