@@ -1,19 +1,69 @@
-# Übung zu Filter & Query-Params
+# Übung zu Mongoose References (Populate & Select)
 
 ## Setup
 
 installiere alles mit `npm install`
 befülle die datenbank mit `node seed.js`
 
+Es gibt 2 Models: Authors & Books welche eine Relation von 1:n haben (one to many)
+der Controller für Books ist schon implementiert
 
 
 ## Aufgaben
 
-- implementiere alle controller-middlewares in `/controllers/recordsController`
-- der endpunkt `GET /records` soll die möglichkeit haben dass wir paginieren können. Durch die Query-Params `start` und `end` soll nur ein Teil der Gesamt-Liste ausgegeben werden. z.b `GET /records?start=5&end=10` soll die ersten 5 Records überspringen und nur 5 Records ausgeben
-- der endpunkt `GET /records` soll die möglichkeit haben nach genre zu filtern. so soll der Request `GET /records?genre=Rock` nur Records ausgeben welche Rock als Genre haben
-- wir wollen nack Preis filtern können. so soll `GET /records?maxPrice=10` nur Records ausgeben, welche maximal 10€ kosten. der Request `GET /records?minPrice=10` soll nur records ausgeben welche mindestens 10€ kosten
+- implementiere alle controller-middlewares in `/controllers/authorsController`
+- sorge dafür das die books im endpunkt `GET /authors` gepopulated werden
+- sorge dafür das die books im endpunkt `GET /authors` NUR den titel zurück geben (nichts anderes). 
+- Erstelle ein neues model `Publisher`. mit folgendem Schema:
+```javascript
+const publisher = {
+    _id: 'my-id',
+    __v: 0,
+    name: 'Publisher 1',
+    books: ['id1', 'id2'],
+}
+```
+
+Erstelle hierfür auch einen Endpunkt um neue Publisher zu erstellen und einen Endpunkt um eine Liste aller Publisher auszugeben. in dieser Liste sollten die Books gepopulated werden
 
 ## Bonus
 
-- Überlege dir wie man eine Paginierung verwirklichen könnte. Jede Page soll 5 Records beinhalten. wenn ich also `GET /records?page=2` aufrufe, dann sollen nur die Produkte 5-9 ausgegeben werden. wenn ich `GET /records` aufrufe, dann nur Records 0-4
+Erweitere das Schema für Book wie folgt:
+
+```javascript
+const Schema = mongoose.Schema({
+  title: { type: String, required: true },
+  price: { type: Number, required: true },
+  genre: {type: String, enum: ['Old', 'New']},
+  publisher: { type: mongoose.Schema.Types.ObjectId, ref:'Publisher' } // !!
+})
+```
+
+Wenn du ein neues Book erstellst, sorge dafür, dass die generierte _id auch bei dem Publisher hinzugefügt wird.
+Wenn ein neuer Publisher erstellt wird soll dieser Publisher auch bei allen Büchern welche er hat hinzugefügt werden
+
+Beispiel:
+
+es wird folgendes Book erstellt:
+
+```javascript
+const book = {
+    _id: 'book-id-15',
+    __v: 0,
+    title: 'Title 15',
+    price: 10,
+    genre: 'Old',
+    publisher: 'publisher-id-1'
+}
+```
+
+das fürt dazu das sich der Publisher mit der Id `publisher-id-1` so updaten muss
+
+```javascript
+const publisher = {
+    _id: 'publisher-id-1',
+    __v: 0,
+    title: 'Publisher 1',
+    books: ['book-id-15']
+}
+```

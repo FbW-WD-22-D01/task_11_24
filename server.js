@@ -1,5 +1,6 @@
 import express from 'express'
-import recordsRouter from './routes/recordsRouter.js'
+import booksRouter from './routes/booksRouter.js'
+import authorsRouter from './routes/authorsRouter.js'
 import 'express-async-errors'
 import cors from 'cors'
 import mongoose from 'mongoose'
@@ -21,7 +22,8 @@ app.use(cors({
 
 app.use(express.json())
 
-app.use('/records', recordsRouter)
+app.use('/books', booksRouter)
+app.use('/authors', authorsRouter)
 
 
 app.use((req, res, next) => {
@@ -30,10 +32,6 @@ app.use((req, res, next) => {
     message: 'not-found'
   })
 })
-
-// app.get('/records/:id', (req, res, next) => {
-//   throw new Error('my error')
-// })
 
 app.use((error, req, res, next) => {
   res.status(error.status || 500).send({
