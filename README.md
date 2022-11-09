@@ -1,69 +1,62 @@
-# Übung zu Mongoose References (Populate & Select)
+# Übung zu Auth
 
 ## Setup
 
 installiere alles mit `npm install`
-befülle die datenbank mit `node seed.js`
-
-Es gibt 2 Models: Authors & Books welche eine Relation von 1:n haben (one to many)
-der Controller für Books ist schon implementiert
 
 
 ## Aufgaben
 
-- implementiere alle controller-middlewares in `/controllers/authorsController`
-- sorge dafür das die books im endpunkt `GET /authors` gepopulated werden
-- sorge dafür das die books im endpunkt `GET /authors` NUR den titel zurück geben (nichts anderes). 
-- Erstelle ein neues model `Publisher`. mit folgendem Schema:
+- Erstelle ein User-Model für folgendes Objekt:
+
 ```javascript
-const publisher = {
-    _id: 'my-id',
-    __v: 0,
-    name: 'Publisher 1',
-    books: ['id1', 'id2'],
+const user = {
+    name: 'Chuck Norris',
+    email: 'chuck@norris.de',
+    password: 'thisismysecretpassword'
 }
 ```
 
-Erstelle hierfür auch einen Endpunkt um neue Publisher zu erstellen und einen Endpunkt um eine Liste aller Publisher auszugeben. in dieser Liste sollten die Books gepopulated werden
+Entscheide selbständig welche Felder required/unique sind
+
+- Definiere folgende Endpunkte und validiere die Endpunkte mit express-validator. Die Endpunkte müssen noch nicht implementiert werden (du kannst z.b mit httpsErrors ein "NotImplemented" zurück geben)
+
+```
+url: POST /user/register
+body: {
+    "name": "Chuck Norris",
+    "email": "chuck@norris.de",
+    "password": "thisismysecretpassword"
+}
+
+url: POST /user/login
+body: {
+    "email": "chuck@norris.de",
+    "password": "thisismysecretpassword"
+}
+
+url: GET /user
+```
+
+- Implementiere den "register" Endpunkt. Sorge dafür dass das Passwort nicht in Klartext in der Datenbank steht (mit bcrypt.hash). Der Endpunkt soll einen User in der Datenbank anlegen
+
+- Implementiere den "login" Endpunkt. Wenn der User sich erfolgreich eingeloggt hat soll ein Token zurück gegeben werden (und auf dem User gespeichert werden)
+
+- Implementiere den "GET /user" Endpunkt. dieser Endpunkt erwartet einen Header "X-Auth" welcher den Token des Users enthält. wird kein User zu dem Token gefunden, dann soll ein 401 ausgegeben werden. Andernfalls soll der User zurück gegeben werden
+
+- Wenn der User sich registriert, dann will er natürlich gleich eingeloggt sein. Sorge dafür, dass auch bei der Registrierung der Token schon generiert wird
+
+- Der "GET /user" Endpunkt gibt uns im Response das Passwort und den Token aus. Das soll nicht sein. Sorge dafür, dass beide nicht im Response auftauchen
 
 ## Bonus
 
-Erweitere das Schema für Book wie folgt:
+Baue eine Middleware welche automatisch überprüft of der user angemeldet ist oder nicht (also ob ein valider "X-Auth" header gesetzt ist oder nicht). wenn der user nicht angemeldet ist soll automatisch ein 401 geworfen werden. So soll die middleware eingesetzt werden können
 
 ```javascript
-const Schema = mongoose.Schema({
-  title: { type: String, required: true },
-  price: { type: Number, required: true },
-  genre: {type: String, enum: ['Old', 'New']},
-  publisher: { type: mongoose.Schema.Types.ObjectId, ref:'Publisher' } // !!
-})
-```
+// routers/userRouter.js
+import auth from '../middewares/auth.js'
+import * as controller from '../controllers/usersController.js'
 
-Wenn du ein neues Book erstellst, sorge dafür, dass die generierte _id auch bei dem Publisher hinzugefügt wird.
-Wenn ein neuer Publisher erstellt wird soll dieser Publisher auch bei allen Büchern welche er hat hinzugefügt werden
+app.get('/', auth, controllers.getUser)
 
-Beispiel:
-
-es wird folgendes Book erstellt:
-
-```javascript
-const book = {
-    _id: 'book-id-15',
-    __v: 0,
-    title: 'Title 15',
-    price: 10,
-    genre: 'Old',
-    publisher: 'publisher-id-1'
-}
-```
-
-das fürt dazu das sich der Publisher mit der Id `publisher-id-1` so updaten muss
-
-```javascript
-const publisher = {
-    _id: 'publisher-id-1',
-    __v: 0,
-    title: 'Publisher 1',
-    books: ['book-id-15']
-}
 ```

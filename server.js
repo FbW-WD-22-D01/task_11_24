@@ -1,6 +1,4 @@
 import express from 'express'
-import booksRouter from './routes/booksRouter.js'
-import authorsRouter from './routes/authorsRouter.js'
 import 'express-async-errors'
 import cors from 'cors'
 import mongoose from 'mongoose'
@@ -21,9 +19,6 @@ app.use(cors({
 }))
 
 app.use(express.json())
-
-app.use('/books', booksRouter)
-app.use('/authors', authorsRouter)
 
 
 app.use((req, res, next) => {
