@@ -1,39 +1,65 @@
-# Übung zu Auth & Mongoose helpers
+# Special Task: Record Store
 
-## Setup
+Hier eine optionale Aufgabe für besonders Fleißige. Die Aufgabe ist etwas abstrakter. D.h die Aufgaben sind weniger "geführt" sondern es wird erwartet das du selber Lösungen dafür findest.
 
-installiere alles mit `npm install`
+Ziel ist es eine Shop-API zu entwickeln wo man Records (Lieder) kaufen kann. 
 
-Das Projekt ist das gleiche wie wir gestern in der Musterlösung entwickelt haben
+## Stage 1: Records erstellen
 
+Erstelle ein Model `Record` mit folgendem Shape
 
-## Aufgaben
-
-- Wir wollen nicht dass unser `GET /user` Endpunkt den token und das Passwort zurück gibt. diese sollen aus dem response heraus-genommen werden. überschreibe hierfür die `toJSON` methode unseres User-Models
-- Erstelle eine Auth-Middleware welche verfifiziert ob der User einen validen Token schickt (eingeloggt ist). Falls ja soll das User-Objekt an dem Request Objekt gespeichert werden, damit die controller auf den user zugreifen können
-- Erstelle eine User-Methode welche es uns erlaubt einen Token zu generieren: `user.generateToken()`
-- Erstelle eine User-Static-Function welche uns hilft einen User basierend auf seinem Token zu finden: `const user = await User.findByToken(token)`
-- Wir wollen jedesmal wenn das passwort im User gesetzt wird, dass dieses automatisch gehashed wird, bevor wir das document speichern. Erstelle hierfür eine mongoose-middleware welche jedersmal vor dem speichern feststellt ob dass passwort verändert wurde. falls ja soll das passwort gehashed werden. dadurch müssen wir nicht mehr manuell das passwort hashen in `createUser`
-
-## Bonus
-
-- Schreibe einen Endpunkt (mit validierung):
-
-```
-POST /user/change-password
-body: {
-    "password": "my-old-password",
-    "newPassword": "my-new-password"
+```javascript
+const record = {
+    title: "Back in Black",
+    band: "AC/DC",
+    price: 10,
 }
 ```
 
-wird dieser endpunkt aufgerufen soll er das neue passwort setzen. aber nur dann, wenn das mitgegebene passwort (body.password) auch korrekt ist
+Erstelle ein Seed-Script welches die Datenbank initial befüllt. (Lege mindestens 10 Records an)
 
-- Schreibe einen Endpunkt:
+Schreibe eine Route `GET /records` welche eine Liste an Records ausgibt.
+
+> Optional: Ermögliche filtering über Query-Params. es soll nach einer price range und nach bands gefiltert werden können. 
+
+## State 2: User-Verwaltung
+
+Baue nach eigenem Ermessen eine User-Verwaltung. Folgende API-Endpunkte sollen erstellt werden
+
+- `POST /user/register`: erstellt einen neuen User
+- `POST /user/login`: loggt einen User ein (über einen Token)
+- `POST /user/logout`: loggt einen User aus
+
+Sorge dafür das alle POST-Request validiert werden, sodass der User keinen Non-Sense posten kann
+
+## State 3: Orders
+
+Es sollen folgende Endpunkte entwickelt werden:
 
 ```
-POST /user/logout
-body: {}
+url: POST /user/cart/add-record
+beschreibung: fügt ein record zu deinem cart hinzu in angegebener menge.
+body: {
+    "recordId": "RECORD-ID",
+    "amount": 1
+}
+
+url: POST /user/cart/set-record-amount
+beschreibung: updated den amount eines records im cart.
+body: {
+    "recordId": "RECORD-ID",
+    "amount": 1
+}
+
+url: POST /user/cart/remove-record
+beschreibung: entfernt den record aus dem cart
+body: {
+    "recordId": "RECORD-ID",
+}
+
 ```
 
-wird dieser endpunkt aufgerufen soll dafür gesorgt werden, dass sich der user nicht mehr mit dem aktuellen token requests an auth-endpunkte machen kann. 
+Überlege eigenständig wie du das implementieren würdest. du könntest z.b ein eigenes Model "Cart" entwickeln oder aber das User-Model erweitern um einen Property "cart". Oder du kommst mit einer ganz eigenen Lösung. Hier hast du alle Freiheiten. Es muss nur am Schluss funktionieren
+
+Tip: Baue ruhig eigene Endpunkte mit dazu-welche dir helfen besser auf die Daten zuzugreifen. z.b könntest du einen eigenen GET Endpunkt entwickeln welcher den Cart ausgibt (inklusive des Gesamt-Preises)
+

@@ -3,7 +3,6 @@ import 'express-async-errors'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import * as dotenv from 'dotenv'
-import usersRouter from './routers/usersRouter.js'
 dotenv.config()
 
 mongoose.connect(process.env.DB_CONN)
@@ -20,8 +19,6 @@ app.use(cors({
 }))
 
 app.use(express.json())
-
-app.use('/user', usersRouter)
 
 
 app.use((req, res, next) => {
