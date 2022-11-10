@@ -1,62 +1,39 @@
-# Übung zu Auth
+# Übung zu Auth & Mongoose helpers
 
 ## Setup
 
 installiere alles mit `npm install`
 
+Das Projekt ist das gleiche wie wir gestern in der Musterlösung entwickelt haben
+
 
 ## Aufgaben
 
-- Erstelle ein User-Model für folgendes Objekt:
-
-```javascript
-const user = {
-    name: 'Chuck Norris',
-    email: 'chuck@norris.de',
-    password: 'thisismysecretpassword'
-}
-```
-
-Entscheide selbständig welche Felder required/unique sind
-
-- Definiere folgende Endpunkte und validiere die Endpunkte mit express-validator. Die Endpunkte müssen noch nicht implementiert werden (du kannst z.b mit httpsErrors ein "NotImplemented" zurück geben)
-
-```
-url: POST /user/register
-body: {
-    "name": "Chuck Norris",
-    "email": "chuck@norris.de",
-    "password": "thisismysecretpassword"
-}
-
-url: POST /user/login
-body: {
-    "email": "chuck@norris.de",
-    "password": "thisismysecretpassword"
-}
-
-url: GET /user
-```
-
-- Implementiere den "register" Endpunkt. Sorge dafür dass das Passwort nicht in Klartext in der Datenbank steht (mit bcrypt.hash). Der Endpunkt soll einen User in der Datenbank anlegen
-
-- Implementiere den "login" Endpunkt. Wenn der User sich erfolgreich eingeloggt hat soll ein Token zurück gegeben werden (und auf dem User gespeichert werden)
-
-- Implementiere den "GET /user" Endpunkt. dieser Endpunkt erwartet einen Header "X-Auth" welcher den Token des Users enthält. wird kein User zu dem Token gefunden, dann soll ein 401 ausgegeben werden. Andernfalls soll der User zurück gegeben werden
-
-- Wenn der User sich registriert, dann will er natürlich gleich eingeloggt sein. Sorge dafür, dass auch bei der Registrierung der Token schon generiert wird
-
-- Der "GET /user" Endpunkt gibt uns im Response das Passwort und den Token aus. Das soll nicht sein. Sorge dafür, dass beide nicht im Response auftauchen
+- Wir wollen nicht dass unser `GET /user` Endpunkt den token und das Passwort zurück gibt. diese sollen aus dem response heraus-genommen werden. überschreibe hierfür die `toJSON` methode unseres User-Models
+- Erstelle eine Auth-Middleware welche verfifiziert ob der User einen validen Token schickt (eingeloggt ist). Falls ja soll das User-Objekt an dem Request Objekt gespeichert werden, damit die controller auf den user zugreifen können
+- Erstelle eine User-Methode welche es uns erlaubt einen Token zu generieren: `user.generateToken()`
+- Erstelle eine User-Static-Function welche uns hilft einen User basierend auf seinem Token zu finden: `const user = await User.findByToken(token)`
+- Wir wollen jedesmal wenn das passwort im User gesetzt wird, dass dieses automatisch gehashed wird, bevor wir das document speichern. Erstelle hierfür eine mongoose-middleware welche jedersmal vor dem speichern feststellt ob dass passwort verändert wurde. falls ja soll das passwort gehashed werden. dadurch müssen wir nicht mehr manuell das passwort hashen in `createUser`
 
 ## Bonus
 
-Baue eine Middleware welche automatisch überprüft of der user angemeldet ist oder nicht (also ob ein valider "X-Auth" header gesetzt ist oder nicht). wenn der user nicht angemeldet ist soll automatisch ein 401 geworfen werden. So soll die middleware eingesetzt werden können
-
-```javascript
-// routers/userRouter.js
-import auth from '../middewares/auth.js'
-import * as controller from '../controllers/usersController.js'
-
-app.get('/', auth, controllers.getUser)
+- Schreibe einen Endpunkt (mit validierung):
 
 ```
+POST /user/change-password
+body: {
+    "password": "my-old-password",
+    "newPassword": "my-new-password"
+}
+```
+
+wird dieser endpunkt aufgerufen soll er das neue passwort setzen. aber nur dann, wenn das mitgegebene passwort (body.password) auch korrekt ist
+
+- Schreibe einen Endpunkt:
+
+```
+POST /user/logout
+body: {}
+```
+
+wird dieser endpunkt aufgerufen soll dafür gesorgt werden, dass sich der user nicht mehr mit dem aktuellen token requests an auth-endpunkte machen kann. 
