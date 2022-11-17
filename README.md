@@ -23,4 +23,5 @@ Für diejenigen, welche gerne aufgaben über das Wochenende haben: Lösche das F
 
 ## Bonus
 
-Füge einen "logout" button in der Komponente UserDetail.jsx hinzu. wenn der button geklickt wird, dann soll der user auf dem server ausgeloggt werden. Überlege dir einen passenden weg dafür
+- Füge einen "logout" button in der Komponente UserDetail.jsx hinzu. wenn der button geklickt wird, dann soll der user auf dem server ausgeloggt werden. Überlege dir einen passenden weg dafür
+- Wird ein Token verwendet der nicht valide ist (z.b "1234") in der UserDetails.jsx, dann bekommen wir einen 500er vom server. aber eigentlich wollen wir einen 401. Debugge dich durch den Code und verstehe wie dieser Fehler zustande kommt. sorge dafür, dass wir einen 401 bekommen
