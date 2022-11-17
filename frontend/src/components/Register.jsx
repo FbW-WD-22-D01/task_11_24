@@ -1,14 +1,20 @@
 import * as React from 'react'
+import UserDetails from './UserDetails'
 import './Register.css'
 
 export default function Register (props) {
   const [name, setName] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const [loggedIn, setLoggedIn] = React.useState(false)
 
   const submit = async (e) => {
     e.preventDefault()
     console.log('submit')
+  }
+
+  if(loggedIn) {
+    return <UserDetails />
   }
 
   return (

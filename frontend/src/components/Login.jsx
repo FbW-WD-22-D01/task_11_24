@@ -5,15 +5,15 @@ import UserDetails from './UserDetails'
 export default function Login (props) {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
-  const [token, setToken] = React.useState('')
+  const [loggedIn, setLoggedIn] = React.useState(false)
 
   const submit = async (e) => {
     e.preventDefault()
     console.log('submit')
   }
 
-  if(token) {
-    return <UserDetails token={token}/>
+  if(loggedIn) {
+    return <UserDetails />
   }
 
   return (
