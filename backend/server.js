@@ -3,9 +3,7 @@ import express from 'express'
 import 'express-async-errors'
 import cors from 'cors'
 import mongoose from 'mongoose'
-import recordRouter from './routers/recordsRouter.js'
 import usersRouter from './routers/usersRouter.js'
-import cartRouter from './routers/cartRouter.js'
 dotenv.config()
 
 mongoose.connect(process.env.DB_CONN)
@@ -23,9 +21,7 @@ app.use(cors({
 
 app.use(express.json())
 
-app.use('/records', recordRouter)
 app.use('/user', usersRouter)
-app.use('/cart', cartRouter)
 
 app.use((req, res, next) => {
   next({

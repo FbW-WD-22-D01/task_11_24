@@ -18,3 +18,9 @@
 .Login .error {
   color: red;
 }
+
+.Login .link {
+  color: blue;
+  text-decoration: underline;
+  margin-top: 10px;
+}

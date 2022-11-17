@@ -18,3 +18,9 @@
 .Register .error {
   color: red;
 }
+
+.Register .link {
+  color: blue;
+  text-decoration: underline;
+  margin-top: 10px;
+}

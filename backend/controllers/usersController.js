@@ -1,20 +1,10 @@
 import User from "../models/User.js"
-import Cart from "../models/Cart.js"
 
 export async function createUser (req, res) {
   const user = new User(req.body)
   await user.save()
 
-  // Cart für neuen User erstellen
-  const cart = await Cart.create({ user: user._id, products: [] })
-
-
-  // User und Cart zurückschicken
-  res.status(200).send({
-    message: 'user created',
-    user,
-    cart
-  })
+  res.status(201).send(user)
 }
 
 
@@ -41,7 +31,6 @@ export async function login(req, res, next) {
 
 
 export async function getUser(req,res){
-  // await new Promise(r => setTimeout(r, 4000))
   const user = req.user
   res.send(user)
 }
