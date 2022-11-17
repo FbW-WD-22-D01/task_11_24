@@ -16,9 +16,9 @@ Für diejenigen, welche gerne aufgaben über das Wochenende haben: Lösche das F
 
 ## Tasks
 
-- Sorge dafür, dass der Server login/register nicht mehr mit einem x-auth header funktioniert, sondern über cookies
-- Implementiere den `submit` callback in der frontend-komponente Register.jsx
-- Implementiere den `submit` callback in der frontend-komponente Login.jsx
+- Implementiere den `submit` callback in der frontend-komponente Register.jsx. Sorge dafür, dass die Validierungs-Fehler angezeigt werden, wenn der User falsche Angaben macht. Gib einen allgemeinen Fehler aus, wenn ein status-code kommt, den wir nicht kennen (z.b 500)
+- Implementiere den `submit` callback in der frontend-komponente Login.jsx. Sorge dafür, dass die Validierungs-Fehler angezeigt werden, wenn der User falsche Angaben macht. Gib einen allgemeinen Fehler aus, wenn ein status-code kommt, den wir nicht kennen (z.b 500)
+- Sorge dafür, dass sich der login-status "gemerkt" wird. speichere den token bei register/login im localStorage und gib gleich den User-Details screen aus, wenn der User schon einen token hat.
 
 
 ## Bonus
