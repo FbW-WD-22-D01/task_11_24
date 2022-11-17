@@ -1,8 +1,11 @@
+import * as dotenv from 'dotenv'
 import express from 'express'
 import 'express-async-errors'
 import cors from 'cors'
 import mongoose from 'mongoose'
-import * as dotenv from 'dotenv'
+import recordRouter from './routers/recordsRouter.js'
+import usersRouter from './routers/usersRouter.js'
+import cartRouter from './routers/cartRouter.js'
 dotenv.config()
 
 mongoose.connect(process.env.DB_CONN)
@@ -20,6 +23,9 @@ app.use(cors({
 
 app.use(express.json())
 
+app.use('/records', recordRouter)
+app.use('/user', usersRouter)
+app.use('/cart', cartRouter)
 
 app.use((req, res, next) => {
   next({
@@ -28,6 +34,7 @@ app.use((req, res, next) => {
   })
 })
 
+// eslint-disable-next-line no-unused-vars
 app.use((error, req, res, next) => {
   res.status(error.status || 500).send({
     message: error.message
@@ -36,3 +43,4 @@ app.use((error, req, res, next) => {
 
 
 app.listen(process.env.PORT, () => console.log('app listening on localhost:3001'))
+
