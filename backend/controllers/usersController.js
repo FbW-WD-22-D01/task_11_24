@@ -2,9 +2,10 @@ import User from "../models/User.js"
 
 export async function createUser (req, res) {
   const user = new User(req.body)
+  const token = user.generateAuthToken()
   await user.save()
 
-  res.status(201).send(user)
+  res.status(201).send(token)
 }
 
 
