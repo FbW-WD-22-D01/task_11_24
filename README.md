@@ -1,4 +1,4 @@
-# Frontend-Login
+# Fullstack-Register
 
 Installiere und starte das Backend:
 - `cd backend`
@@ -10,18 +10,7 @@ Installiere und starte das Frontend:
 - `npm install`
 - `npm run dev`
 
-## Info
+## Task
 
-Für diejenigen, welche gerne aufgaben über das Wochenende haben: Lösche das File `backend/controllers/userController.js` und `backend/models/User.js`. Fahre dann ganz normal mit den Tasks fort
+Wenn ich mich registrieren will, dann bin ich noch nicht automatisch eingeloggt. Sorge dafür das man automatisch eingeloggt wird und bei erfolgreicher registrierung auf der account page (/) raus kommt.
 
-## Tasks
-
-- Implementiere den `submit` callback in der frontend-komponente Register.jsx. Sorge dafür, dass die Validierungs-Fehler angezeigt werden, wenn der User falsche Angaben macht. Gib einen allgemeinen Fehler aus, wenn ein status-code kommt, den wir nicht kennen (z.b 500)
-- Implementiere den `submit` callback in der frontend-komponente Login.jsx. Sorge dafür, dass die Validierungs-Fehler angezeigt werden, wenn der User falsche Angaben macht. Gib einen allgemeinen Fehler aus, wenn ein status-code kommt, den wir nicht kennen (z.b 500)
-- Sorge dafür, dass sich der login-status "gemerkt" wird. speichere den token bei register/login im localStorage und gib gleich den User-Details screen aus, wenn der User schon einen token hat.
-
-
-## Bonus
-
-- Füge einen "logout" button in der Komponente UserDetail.jsx hinzu. wenn der button geklickt wird, dann soll der user auf dem server ausgeloggt werden. Überlege dir einen passenden weg dafür
-- Wird ein Token verwendet der nicht valide ist (z.b "1234") in der UserDetails.jsx, dann bekommen wir einen 500er vom server. aber eigentlich wollen wir einen 401. Debugge dich durch den Code und verstehe wie dieser Fehler zustande kommt. sorge dafür, dass wir einen 401 bekommen
