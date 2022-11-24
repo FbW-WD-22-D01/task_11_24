@@ -9,6 +9,6 @@ const app = express.Router()
 app.get('/', auth, controller.getUser)
 app.post('/register', ...validations.register,  controller.createUser)
 app.post('/login', ...validations.login, controller.login)
-
-
+app.get('/loggedIn', auth, controller.isLoggedIn)
+app.get('/logout', auth, controller.logout)
 export default app
